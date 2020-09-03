@@ -994,7 +994,16 @@ make_fun_clause(P, G, B, Ctxt) ->
 
 make_fun_clause(N, P, G, B, Ctxt) ->
     D = make_fun_clause_head(N, P, Ctxt),
-    make_case_clause(D, G, B, Ctxt).
+    case P of
+        {_, [null], _, _} ->
+            io:format("N: ~p~nP: ~p~nG: ~p~nB: ~p~nCtxt: ~p~n~n",
+                      [prettypr:format(N), prettypr:format(P), G, prettypr:format(B), Ctxt]),
+            make_case_clause(D, G, B, Ctxt);
+        _ ->
+            make_case_clause(D, G, B, Ctxt)
+    end.
+
+    % make_case_clause(D, G, B, Ctxt).
 
 make_fun_clause_head(N, P, Ctxt) when N =:= none ->
     lay_parentheses(P, Ctxt);
